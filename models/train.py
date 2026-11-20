@@ -3,7 +3,9 @@ import torch.nn as nn
 from models.model import Wide_and_Deep
 from torch.utils.data import TensorDataset, DataLoader
 
-def train(model, optimizer, criterion, train_loader, n_epochs,device='mps'):
+def train(model, optimizer, criterion, train_loader, n_epochs, device=None):
+    if device is None:
+        device = next(model.parameters()).device
     model.train()
     for epoch in range(n_epochs):
         total_loss = 0.
@@ -19,7 +21,9 @@ def train(model, optimizer, criterion, train_loader, n_epochs,device='mps'):
         mean_loss = total_loss / len(train_loader)
         print(f"Epoch {epoch + 1}/{n_epochs}, Loss: {mean_loss:.4f}")
 
-def evaluate(model, data_loader, metric_fn, aggregate_fn=torch.mean, device='mps'):
+def evaluate(model, data_loader, metric_fn, aggregate_fn=torch.mean, device=None):
+    if device is None:
+        device = next(model.parameters()).device
     model.eval()
     metrics = []
     with torch.no_grad():
