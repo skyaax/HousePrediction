@@ -25,7 +25,7 @@ One saved notebook run reports the following on a fixed 20% validation split:
 | RMSE | $61,900 |
 | MAE | $42,448 |
 
-These are exploratory results, not a final benchmark. Rerun the notebook from a fresh kernel before comparing experiments. In particular, dropping capped-price rows changes the population being predicted, and the correlation-based feature selection experiment currently selects features before the train/validation split, which can leak validation information.
+These are exploratory results, not a final benchmark. Rerun the notebook from a fresh kernel before comparing experiments. The correlation-based feature-selection experiments now rank features using training rows only, then apply the same selected columns to validation rows. The validation set is reused across experiments, so it should not be treated as an independent final score. Dropping capped-price rows also changes the population being predicted.
 
 ## Project contents
 
@@ -59,7 +59,7 @@ In Jupyter, restart the kernel and run the notebook from the top. The notebook s
 
 1. Inspects missing values, feature distributions, geography, and the target-value cap.
 2. Adds household ratios, log-count features, and location/ocean-proximity interactions.
-3. Splits the data, scales numeric inputs using training data, and trains the wide-and-deep model.
+3. Splits the data, fits scaling and feature selection on training data only, and trains the wide-and-deep model.
 4. Reviews validation errors and explores the effects of removing capped targets and low-correlation features.
 
 ## Next improvements
